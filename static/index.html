@@ -7,7 +7,8 @@
 <body>
   <h1>디스코드 메시지 보내기</h1>
   <form id="webhookForm">
-    <input type="text" id="message" placeholder="메시지를 입력하세요" required>
+    <input type="text" id="webhook_url" placeholder="웹훅 URL 입력" required style="width:400px"><br><br>
+    <input type="text" id="message" placeholder="메시지를 입력하세요" required style="width:400px"><br><br>
     <button type="submit">보내기</button>
   </form>
 
@@ -16,12 +17,13 @@
   <script>
     document.getElementById("webhookForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const webhook_url = document.getElementById("webhook_url").value;
       const message = document.getElementById("message").value;
 
       const response = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({ webhook_url, message })
       });
 
       const text = await response.text();
